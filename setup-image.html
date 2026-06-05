@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Hero Image - Wealth Acumen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a5490; }
+        .image-preview {
+            width: 100%;
+            border: 3px dashed #1a5490;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        .btn {
+            background: #1a5490;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #154373;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #ff6b35;
+            margin: 20px 0;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Setup Hero Image for Wealth Acumen</h1>
+        
+        <div class="instructions">
+            <h3>Quick Setup Instructions:</h3>
+            <ol>
+                <li><strong>Right-click</strong> on the image below (your business handshake image)</li>
+                <li>Select <strong>"Save image as..."</strong></li>
+                <li>Save it as <strong>"hero-image.jpg"</strong> in the same folder as index.html</li>
+                <li>Refresh your main website (index.html) to see it in action!</li>
+            </ol>
+        </div>
+
+        <div class="image-preview">
+            <h3>Your Hero Image:</h3>
+            <p>This is the business handshake image you provided</p>
+            <img src="data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%232a4e7a'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dy='.3em'%3EYour Business Handshake Image Here%3C/text%3E%3C/svg%3E" alt="Business Handshake" id="heroImage">
+            <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                <em>Note: Replace this placeholder by saving the handshake image you uploaded as "hero-image.jpg"</em>
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="btn btn-success">View Website</a>
+            <button onclick="downloadInstructions()" class="btn">Download Instructions</button>
+        </div>
+
+        <div class="instructions" style="margin-top: 30px;">
+            <h3>Alternative Method - Manual Save:</h3>
+            <ol>
+                <li>Locate the business handshake image you uploaded</li>
+                <li>Copy it to this project folder</li>
+                <li>Rename it to <strong>hero-image.jpg</strong></li>
+                <li>Done! Your hero section will automatically use it</li>
+            </ol>
+        </div>
+
+        <div class="instructions" style="background: #e7f3ff;">
+            <h3>✅ Project Files Checklist:</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li>✅ index.html (Main website file)</li>
+                <li>✅ styles.css (Styling)</li>
+                <li>✅ script.js (Functionality)</li>
+                <li>⬜ hero-image.jpg (Save your handshake image as this)</li>
+                <li>⬜ logo.png (Optional - your company logo)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadInstructions() {
+            const text = `
+Wealth Acumen Website - Hero Image Setup Instructions
+=====================================================
+
+STEP 1: Save Your Hero Image
+- Right-click on your business handshake image
+- Save it as "hero-image.jpg"
+- Place it in the same folder as index.html
+
+STEP 2: Optional - Add Your Logo
+- Save your company logo as "logo.png"
+- Place it in the same folder
+
+STEP 3: Open the Website
+- Double-click index.html
+- Your site is ready!
+
+File Structure:
+├── index.html
+├── styles.css
+├── script.js
+├── hero-image.jpg (your image here)
+└── logo.png (optional)
+
+Need Help?
+----------
+- Make sure the image is named exactly "hero-image.jpg"
+- The file should be in the same folder as index.html
+- Supported formats: JPG, JPEG, PNG
+
+Your website includes:
+✅ Smooth scrolling
+✅ Mobile responsive design
+✅ Modern animations
+✅ Complete sections (About, Services, Contact, etc.)
+✅ Working navigation
+`;
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'SETUP-INSTRUCTIONS.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

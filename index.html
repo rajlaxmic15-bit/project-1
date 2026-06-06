@@ -37,11 +37,16 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <!-- Layer 0: Deep background image -->
         <div class="hero-background" id="heroBackground"></div>
+        <!-- Layer 1: Mid-depth blurred overlay -->
+        <div class="hero-mid-layer" id="heroMidLayer"></div>
+        <!-- Layer 2: Foreground vignette / color wash -->
+        <div class="hero-fg-layer" id="heroFgLayer"></div>
         <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content">
             <div class="container">
-                <div class="hero-text-left">
+                <div class="hero-text-left" id="heroText">
                     <div class="amfi-badge fade-in">
                         AMFI REGISTERED MUTUAL FUND DISTRIBUTOR
                     </div>

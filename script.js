@@ -15,93 +15,107 @@ navMenu.querySelectorAll('a').forEach(link => {
     });
 });
 
-// 3D Parallax Effect for Hero Section
+// =============================================
+// CINEMATIC MULTI-LAYER MOUSE-DRIVEN PARALLAX
+// =============================================
 const hero = document.querySelector('.hero');
 const heroBackground = document.getElementById('heroBackground');
+const heroMidLayer   = document.getElementById('heroMidLayer');
+const heroFgLayer    = document.getElementById('heroFgLayer');
+const heroText       = document.getElementById('heroText');
 
 if (hero && heroBackground) {
-    let mouseX = 0;
-    let mouseY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let isMouseOver = false;
+    // Smoothed mouse position
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
     let scrollY = 0;
-    
-    // Create custom cursor
+
+    // Custom magnetic cursor
     const cursor = document.createElement('div');
     cursor.className = 'hero-cursor';
     cursor.style.display = 'none';
     document.body.appendChild(cursor);
-    
-    // Mouse move parallax effect
+
     hero.addEventListener('mousemove', (e) => {
-        isMouseOver = true;
         const rect = hero.getBoundingClientRect();
-        mouseX = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        mouseY = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        
-        // Update custom cursor position
+        // Normalised -0.5 → 0.5
+        targetX = (e.clientX - rect.left  - rect.width  / 2) / rect.width;
+        targetY = (e.clientY - rect.top   - rect.height / 2) / rect.height;
+
         cursor.style.display = 'block';
-        cursor.style.left = e.clientX - 15 + 'px';
-        cursor.style.top = e.clientY - 15 + 'px';
-        cursor.style.transform = 'scale(' + (1 + Math.abs(mouseX) * 0.3) + ')';
+        cursor.style.left = (e.clientX - 15) + 'px';
+        cursor.style.top  = (e.clientY - 15) + 'px';
+        cursor.style.transform = 'scale(' + (1 + Math.abs(targetX) * 0.4) + ')';
     });
-    
-    // Track mouse entering hero section
+
     hero.addEventListener('mouseenter', () => {
-        isMouseOver = true;
         cursor.style.display = 'block';
     });
-    
-    // Reset on mouse leave
+
     hero.addEventListener('mouseleave', () => {
-        isMouseOver = false;
-        mouseX = 0;
-        mouseY = 0;
+        targetX = 0;
+        targetY = 0;
         cursor.style.display = 'none';
     });
-    
-    // Track scroll position
+
     window.addEventListener('scroll', () => {
         scrollY = window.pageYOffset;
     });
-    
-    // Smooth animation loop for parallax
-    function animateParallax() {
-        currentX += (mouseX - currentX) * 0.08;
-        currentY += (mouseY - currentY) * 0.08;
-        
-        const moveX = currentX * 25;
-        const moveY = currentY * 25;
-        const rotateX = currentY * 3;
-        const rotateY = -currentX * 3;
-        
-        // Apply parallax scroll effect
-        const parallaxSpeed = 0.3;
-        const scrollOffset = scrollY * parallaxSpeed;
-        
-        if (isMouseOver && scrollY < hero.offsetHeight) {
-            // Mouse movement effect when hovering
-            heroBackground.style.transform = `
-                translateX(${moveX}px) 
-                translateY(${moveY + scrollOffset}px) 
-                rotateX(${rotateX}deg) 
-                rotateY(${rotateY}deg)
-                scale(1.05)
-            `;
-        } else {
-            // Just scroll effect when not hovering
-            heroBackground.style.transform = `
-                translateY(${scrollOffset}px)
-                scale(1.05)
-            `;
+
+    function animateCinematicParallax() {
+        // Smooth lerp towards target
+        const ease = 0.06;
+        currentX += (targetX - currentX) * ease;
+        currentY += (targetY - currentY) * ease;
+
+        const scrollOffset = scrollY * 0.28;
+
+        // ── LAYER 0: Background — moves the LEAST (farthest away)
+        const bg_x = currentX * 18;
+        const bg_y = currentY * 18;
+        const bg_rotX =  currentY * 4;
+        const bg_rotY = -currentX * 4;
+        // Deep-focus: blur increases toward edges
+        const edgeDist = Math.sqrt(currentX * currentX + currentY * currentY);
+        const focusBlur = Math.min(edgeDist * 8, 7);
+        heroBackground.style.transform =
+            `translateX(${bg_x}px) translateY(${bg_y + scrollOffset}px) rotateX(${bg_rotX}deg) rotateY(${bg_rotY}deg) scale(1.06)`;
+        heroBackground.style.filter =
+            `contrast(1.15) brightness(${0.85 - edgeDist * 0.12}) saturate(1.15) blur(${focusBlur}px)`;
+
+        // ── LAYER 1: Mid layer — moves at medium speed
+        const mid_x = currentX * 34;
+        const mid_y = currentY * 34;
+        if (heroMidLayer) {
+            heroMidLayer.style.transform =
+                `translateX(${mid_x}px) translateY(${mid_y + scrollOffset * 0.6}px) scale(1.06)`;
+            heroMidLayer.style.opacity = 0.25 + edgeDist * 0.3;
         }
-        
-        requestAnimationFrame(animateParallax);
+
+        // ── LAYER 2: Foreground vignette — moves the MOST (closest)
+        const fg_x = currentX * 55;
+        const fg_y = currentY * 55;
+        if (heroFgLayer) {
+            heroFgLayer.style.transform =
+                `translateX(${fg_x}px) translateY(${fg_y + scrollOffset * 0.25}px)`;
+        }
+
+        // ── LAYER 3: Hero text — opposite direction, floats forward
+        if (heroText) {
+            const text_x = -currentX * 22;
+            const text_y = -currentY * 22;
+            const text_rotX = -currentY * 6;
+            const text_rotY =  currentX * 6;
+            heroText.style.transform =
+                `perspective(1200px) translateX(${text_x}px) translateY(${text_y}px) rotateX(${text_rotX}deg) rotateY(${text_rotY}deg) translateZ(60px)`;
+        }
+
+        requestAnimationFrame(animateCinematicParallax);
     }
-    
-    animateParallax();
+
+    animateCinematicParallax();
 }
+
 
 // Create Floating Particles
 const heroParticles = document.getElementById('heroParticles');
@@ -185,32 +199,36 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transform = 'translateY(0) scale(1)';
+            entry.target.style.filter = 'blur(0)';
         }
     });
 }, observerOptions);
 
 // Observe all sections
-document.querySelectorAll('section').forEach(section => {
+document.querySelectorAll('section:not(.hero)').forEach(section => {
     section.style.opacity = '0';
-    section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    section.style.transform = 'translateY(60px)';
+    section.style.filter = 'blur(10px)';
+    section.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
     observer.observe(section);
 });
 
 // Observe service cards
 document.querySelectorAll('.service-card').forEach((card, index) => {
     card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    card.style.transform = 'translateY(40px) scale(0.95)';
+    card.style.filter = 'blur(5px)';
+    card.style.transition = `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`;
     observer.observe(card);
 });
 
 // Observe testimonial cards
 document.querySelectorAll('.testimonial-card').forEach((card, index) => {
     card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    card.style.transform = 'translateY(40px) scale(0.95)';
+    card.style.filter = 'blur(5px)';
+    card.style.transition = `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`;
     observer.observe(card);
 });
 
@@ -519,3 +537,29 @@ document.querySelectorAll('.youtube-thumbnail').forEach(thumbnail => {
         this.appendChild(iframe);
     });
 });
+
+// 3D Tilt Effect for Service Cards
+document.querySelectorAll('.service-card, .learning-card, .why-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        card.style.transition = 'none';
+        card.style.zIndex = '10';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.transition = 'all 0.5s ease';
+        card.style.zIndex = '1';
+    });
+});
+

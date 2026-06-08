@@ -16,8 +16,9 @@ navMenu.querySelectorAll('a').forEach(link => {
 });
 
 // =============================================
-// CINEMATIC MULTI-LAYER MOUSE-DRIVEN PARALLAX
+// OLD CINEMATIC PARALLAX CODE - DISABLED FOR FROSTED GLASS DESIGN
 // =============================================
+/*
 const hero = document.querySelector('.hero');
 const heroBackground = document.getElementById('heroBackground');
 const heroMidLayer   = document.getElementById('heroMidLayer');
@@ -115,9 +116,12 @@ if (hero && heroBackground) {
 
     animateCinematicParallax();
 }
+*/
 
-
-// Create Floating Particles
+// =============================================
+// OLD FLOATING PARTICLES CODE - DISABLED FOR FROSTED GLASS DESIGN
+// =============================================
+/*
 const heroParticles = document.getElementById('heroParticles');
 
 if (heroParticles) {
@@ -158,6 +162,7 @@ if (heroParticles) {
     // Continue creating particles
     setInterval(() => createParticle(), 1500);
 }
+*/
 
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');

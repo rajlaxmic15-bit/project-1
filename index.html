@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth Acumen - Financial Advisory & Wealth Management</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -36,30 +39,43 @@
     </nav>
 
     <!-- Hero Section -->
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <section class="hero" id="home">
-        <!-- Layer 0: Deep background image -->
-        <div class="hero-background" id="heroBackground"></div>
-        <!-- Layer 1: Mid-depth blurred overlay -->
-        <div class="hero-mid-layer" id="heroMidLayer"></div>
-        <!-- Layer 2: Foreground vignette / color wash -->
-        <div class="hero-fg-layer" id="heroFgLayer"></div>
-        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="container">
-                <div class="hero-text-left" id="heroText">
-                    <div class="amfi-badge fade-in">
+                <div class="hero-glass-card">
+                    <div class="amfi-badge-new">
                         AMFI REGISTERED MUTUAL FUND DISTRIBUTOR
                     </div>
-                    <h1 class="hero-title fade-in-delay">
-                        Build Wealth<br>with <span class="highlight-text">Clarity.</span>
+                    <h1 class="hero-title-new">
+                        <em>Build Wealth<br>with Clarity.</em>
                     </h1>
-                    <p class="hero-tagline fade-in-delay-2">Smart Investing, Simplified.</p>
-                    <p class="hero-description fade-in-delay-2">
+                    <p class="hero-description-new">
                         Harness disciplined asset allocation, expert market insights, and secure technology to multiply your wealth systematically. Your journey to financial independence starts here.
                     </p>
-                    <div class="hero-buttons fade-in-delay-3">
-                        <a href="#contact" class="btn btn-primary">Start Investing Today <i class="fas fa-arrow-right"></i></a>
-                        <a href="#contact" class="btn btn-secondary">Book Free Consultation</a>
+                    <div class="hero-buttons-new">
+                        <a href="#contact" class="btn-yellow">
+                            Start Investing Today <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="btn-outline-new">
+                            <i class="fas fa-calendar-check"></i> Book Free Consultation
+                        </a>
+                    </div>
+                    <div class="hero-trust">
+                        <div class="trust-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>SECURE TECHNOLOGY</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fas fa-user-tie"></i>
+                            <span>EXPERT ADVISORY</span>
+                        </div>
                     </div>
                 </div>
             </div>
